@@ -1,0 +1,58 @@
+#spring:
+#  datasource:
+#    driverClassName: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://localhost:2600/midware_3rd_party_pos?autoReconnect=true
+#    username: root
+#    password: P@ssw0rd.15!
+#  jpa:
+#    hibernate.ddl-auto: update
+#    generate-ddl: false
+#    show-sql: false
+#    database-platform: org.hibernate.dialect.MariaDBDialect
+
+midtrans:
+  api:
+    credential: TWlkLXNlcnZlci1kdTN2X2tnZm5Wa3B0U3hNU1N3UGllLXI6
+    baseurl:
+      - https://api.midtrans.com/v2
+      - https://api.veritrans.co.id/v2
+    path:
+      - link: /charge
+        method: POST
+      - link: /order_id/status
+        method: GET
+      - link: /order_id/cancel
+        method: POST
+      - link: /payment_type/order_id/qr-code
+        method: GET
+    notifurl: http://midtrans.swipepayweb.com/callbackapi/notification/transaction
+    logdir: \root\temp\gopay
+
+firstpayment:
+  api:
+    baseurl:
+      - http://localhost:8080/midtransapi/api/v1/gopay
+    path:
+      - name: checkout
+        link: /checkout/
+        method: POST
+      - name: status
+        link: /status/
+        method: GET
+      - name: cancel
+        link: /cancel/
+        method: POST
+      - name: get-qr-code
+        link: /qrcode/
+        method: GET
+server:
+  port: 8080
+  servlet:
+    context-path: /midtransapi
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    com.midtrans.api.listener: DEBUG
+  file: /logs/dev_app.log

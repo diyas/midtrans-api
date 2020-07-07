@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://10.50.11.79:3306/midware_3rd_party_pos?autoReconnect=true
+    username: root
+    password: P@ssw0rd.15!
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+midtrans:
+  api:
+    credential: TWlkLXNlcnZlci1kdTN2X2tnZm5Wa3B0U3hNU1N3UGllLXI6
+    baseurl:
+      - https://api.midtrans.com/v2
+      - https://api.veritrans.co.id/v2
+    path:
+      - link: /charge
+        method: POST
+      - link: /order_id/status
+        method: GET
+      - link: /order_id/cancel
+        method: POST
+      - link: /payment_type/order_id/qr-code
+        method: GET
+    notifurl: http://36.37.119.121:61059/callbackapi/pushnotification/transaction
