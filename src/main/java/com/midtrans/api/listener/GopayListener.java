@@ -41,14 +41,21 @@ public class GopayListener {
 
     HttpHeaders headers = new HttpHeaders();
 
-    public HttpHeaders getHeader(boolean isCredential){
+    public HttpHeaders getHeader(boolean isCredential, String userId){
         headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         if (isCredential) {
-            headers.set("X-Override-Notification", settingProperties.getApi().getNotifurl());
+            if (userId == null)
+                headers.set("X-Override-Notification", settingProperties.getApi().getNotifurl().replace("/user-id",""));
+            else
+                headers.set("X-Override-Notification", settingProperties.getApi().getNotifurl().replace("user-id", userId));
             headers.setBasicAuth(settingProperties.getApi().getCredential());
         }
         return headers;
+    }
+
+    public HttpHeaders getHeader(boolean isCredential){
+        return getHeader(isCredential, null);
     }
 
 //    public HttpHeaders getHeader(boolean isCredential, String userid){
@@ -186,7 +193,5 @@ public class GopayListener {
         BitMatrix bitMatrix = qrCodeWriter.encode(Utility.objectToString(qrCode, false), BarcodeFormat.QR_CODE, 350, 350);
         Path path = FileSystems.getDefault().getPath(settingProperties.getApi().getLogdir()+QR_CODE_IMAGE_PATH);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
-
-
     }
 }

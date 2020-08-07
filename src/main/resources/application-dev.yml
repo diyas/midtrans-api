@@ -25,7 +25,7 @@ midtrans:
         method: POST
       - link: /payment_type/order_id/qr-code
         method: GET
-    notifurl: http://midtrans.swipepayweb.com/callbackapi/notification/transaction
+    notifurl: http://midtrans.swipepayweb.com/callbackapi/notification/transaction/user-id
     logdir: \root\temp\gopay
 
 firstpayment:
@@ -50,9 +50,4 @@ server:
   servlet:
     context-path: /midtransapi
 logging:
-  pattern:
-    console: "%d %-5level %logger : %msg%n"
-    file: "%d %-5level [%thread] %logger : %msg%n"
-  level:
-    com.midtrans.api.listener: DEBUG
-  file: /logs/dev_app.log
+  config: classpath:logback-server.xml

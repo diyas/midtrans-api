@@ -51,13 +51,13 @@ public class GopayCtl {
         return resp;
     }
 
-    @PostMapping(value = "/gopay/qr/{userid}")
-    public ResponseQr getQr(@RequestBody Request req, HttpServletRequest servletRequest, @PathVariable String userid) throws IOException, NotFoundException {
+    @PostMapping(value = "/gopay/qr")
+    public ResponseQr getQr(@RequestBody Request req, HttpServletRequest servletRequest) throws IOException, NotFoundException {
         ResponseQr responseQr = new ResponseQr();
         ResponseQrversion responseQrversion = new ResponseQrversion();
         req.setOrderId("Swipepay-"+System.currentTimeMillis());
         req.setPaymentType("gopay");
-        ResponseEntity<Response> respCharge = gopayListener.postCharge(req, servletRequest, gopayListener.getHeader(true));
+        ResponseEntity<Response> respCharge = gopayListener.postCharge(req, servletRequest, gopayListener.getHeader(true, req.getUserId()));
         ResponseGopay respGopay = (ResponseGopay) respCharge.getBody().getData();
         ResponseEntity<byte[]> resp = gopayListener.getQr(respGopay.getTransactionId());
         InputStream input = new ByteArrayInputStream(resp.getBody());
